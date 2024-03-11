@@ -3,6 +3,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
+import { GlobalContextProvider } from './providers/GlobalContextProvider';
 import { ThemeProvider } from './providers/ThemeProvider';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -20,13 +21,15 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={inter.className}>
-        <ThemeProvider
-          attribute='class'
-          defaultTheme='dark'
-          enableSystem
-          disableTransitionOnChange>
-          {children}
-        </ThemeProvider>
+        <GlobalContextProvider>
+          <ThemeProvider
+            attribute='class'
+            defaultTheme='dark'
+            enableSystem
+            disableTransitionOnChange>
+            {children}
+          </ThemeProvider>
+        </GlobalContextProvider>
       </body>
     </html>
   );
