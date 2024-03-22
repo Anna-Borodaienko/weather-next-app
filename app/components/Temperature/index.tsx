@@ -10,7 +10,7 @@ import {
   navigation,
   rain,
   snow,
-} from '@/app/constants/icons';
+} from '@/app/components/icons';
 import { useGlobalContext } from '@/app/context/GlobalContext';
 
 const Temperature: React.FC = (): JSX.Element => {
