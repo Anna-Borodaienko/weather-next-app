@@ -1,11 +1,11 @@
 'use client';
 
-import { sunset } from '@/app/components/icons';
+import { sunrise } from '@/app/components/icons';
 import { useGlobalContext } from '@/app/context/GlobalContext';
 import { getTimeFromUnix } from '@/app/utils/getTimeFromUnix';
 import { Skeleton } from '@/components/ui/skeleton';
 
-const Sunset: React.FC = (): JSX.Element => {
+export const SunTimes: React.FC = (): JSX.Element => {
   const { forecast } = useGlobalContext();
 
   if (
@@ -13,7 +13,7 @@ const Sunset: React.FC = (): JSX.Element => {
     !forecast?.sys ||
     !forecast?.sys?.sunset ||
     !forecast?.sys?.sunrise ||
-    !forecast.timezone
+    !forecast?.timezone
   ) {
     return <Skeleton className='h-[12rem] w-full' />;
   }
@@ -31,12 +31,12 @@ const Sunset: React.FC = (): JSX.Element => {
       h-[12rem] border rounded-lg flex flex-col gap-8 dark:bg-dark-grey 
       shadow-sm dark:shadow-none'>
       <div className='top'>
-        <h2 className='flex items-center gap-2 font-medium'>{sunset}Sunset</h2>
-        <p className='pt-4 text-2xl'>{sunsetTime}</p>
+        <h2 className='flex items-center gap-2 font-medium'>
+          {sunrise}Sunrise
+        </h2>
+        <p className='pt-4 text-2xl'>{sunriseTime}</p>
       </div>
-      <p>Sunrise: {sunriseTime}</p>
+      <p>Sunset: {sunsetTime}</p>
     </div>
   );
 };
-
-export default Sunset;

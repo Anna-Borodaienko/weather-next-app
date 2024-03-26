@@ -13,7 +13,7 @@ import {
 } from '@/app/components/icons';
 import { useGlobalContext } from '@/app/context/GlobalContext';
 
-const Temperature: React.FC = (): JSX.Element => {
+export const Temperature: React.FC = (): JSX.Element => {
   const [localTime, setLocalTime] = useState<string>('');
   const [currentDay, setCurrentDay] = useState<string>('');
 
@@ -87,5 +87,3 @@ const Temperature: React.FC = (): JSX.Element => {
     </div>
   );
 };
-
-export default Temperature;

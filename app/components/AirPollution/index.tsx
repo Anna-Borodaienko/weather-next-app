@@ -42,5 +42,3 @@ export const AirPollution: React.FC = (): JSX.Element => {
     </div>
   );
 };
-
-export default AirPollution;
