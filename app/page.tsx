@@ -1,7 +1,8 @@
-import AirPollution from './components/AirPollution';
+import { AirPollution } from './components/AirPollution';
 import { Navbar } from './components/Navbar';
-import Sunset from './components/Sunset';
-import Temperature from './components/Temperature';
+import { SunTimes } from './components/SunTimes';
+import { Temperature } from './components/Temperature';
+import { Wind } from './components/Wind';
 
 const Home: React.FC = (): JSX.Element => {
   return (
@@ -16,7 +17,8 @@ const Home: React.FC = (): JSX.Element => {
             className='instruments grid h-full gap-4 col-span-full 
             sm-2:col-span-2 lg:grid-cols-3 xl:grid-cols-4'>
             <AirPollution />
-            <Sunset />
+            <SunTimes />
+            <Wind />
           </div>
         </div>
       </div>
