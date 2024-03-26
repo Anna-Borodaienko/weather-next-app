@@ -1,5 +1,6 @@
 import AirPollution from './components/AirPollution';
 import { Navbar } from './components/Navbar';
+import Sunset from './components/Sunset';
 import Temperature from './components/Temperature';
 
 const Home: React.FC = (): JSX.Element => {
@@ -15,6 +16,7 @@ const Home: React.FC = (): JSX.Element => {
             className='instruments grid h-full gap-4 col-span-full 
             sm-2:col-span-2 lg:grid-cols-3 xl:grid-cols-4'>
             <AirPollution />
+            <Sunset />
           </div>
         </div>
       </div>

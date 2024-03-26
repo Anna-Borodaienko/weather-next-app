@@ -26,7 +26,6 @@ export const GlobalContextProvider = ({
     try {
       const res = await axios.get('api/pollution');
       setAirQuality(res.data);
-      console.log('res', res.data);
     } catch (error) {
       console.log(error);
     }
