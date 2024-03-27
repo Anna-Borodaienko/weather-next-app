@@ -7,19 +7,19 @@ import { useGlobalContext } from '@/app/context/GlobalContext';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export const Wind: React.FC = (): JSX.Element => {
-  const { forecast } = useGlobalContext();
+  const { weather } = useGlobalContext();
 
   if (
-    !forecast ||
-    !forecast?.wind ||
-    !forecast?.wind?.speed ||
-    !forecast?.wind?.deg
+    !weather ||
+    !weather?.wind ||
+    !weather?.wind?.speed ||
+    !weather?.wind?.deg
   ) {
     return <Skeleton className='h-[12rem] w-full' />;
   }
 
-  const windSpeed = forecast.wind.speed;
-  const windDirection = forecast.wind.deg;
+  const windSpeed = weather.wind.speed;
+  const windDirection = weather.wind.deg;
 
   return (
     <div

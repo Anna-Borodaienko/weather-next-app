@@ -1,28 +1,28 @@
 'use client';
 
 import { thermo } from '@/app/components/icons';
-import { airQualityIndexText } from '@/app/constants/airQuality';
+import { pollutionIndexText } from '@/app/constants/pollution';
 import { useGlobalContext } from '@/app/context/GlobalContext';
 import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export const AirPollution: React.FC = (): JSX.Element => {
-  const { airQuality } = useGlobalContext();
+  const { pollution } = useGlobalContext();
 
   if (
-    !airQuality ||
-    !airQuality.list ||
-    !airQuality.list[0] ||
-    !airQuality.list[0].main
+    !pollution ||
+    !pollution.list ||
+    !pollution.list[0] ||
+    !pollution.list[0].main
   )
     return (
       <Skeleton className='h-[12rem] w-full col-span-2 md:col-span-full' />
     );
 
-  const airQualityIndex = airQuality.list[0].main.aqi * 10;
+  const pollutionIndex = pollution.list[0].main.aqi * 10;
 
-  const aitQualityIndexDescription = airQualityIndexText.find(
-    (value) => value.rating === airQualityIndex,
+  const pollutionIndexDescription = pollutionIndexText.find(
+    (value) => value.rating === pollutionIndex,
   );
 
   return (
@@ -34,11 +34,11 @@ export const AirPollution: React.FC = (): JSX.Element => {
         {thermo}Air Pollution
       </h2>
       <Progress
-        value={airQualityIndex}
+        value={pollutionIndex}
         max={100}
         className='progress'
       />
-      <p>Air quality is {aitQualityIndexDescription?.description} </p>
+      <p>Air quality is {pollutionIndexDescription?.description} </p>
     </div>
   );
 };

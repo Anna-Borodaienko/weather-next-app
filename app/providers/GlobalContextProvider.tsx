@@ -3,52 +3,58 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-import { GlobalContext, GlobalContextUpdate } from '../context/GlobalContext';
+import { GlobalContext } from '../context/GlobalContext';
 
 export const GlobalContextProvider = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  const [forecast, setForecast] = useState({});
-  const [airQuality, setAirQuality] = useState({});
+  const [weather, setWeather] = useState({});
+  const [pollution, setPollution] = useState({});
+  const [hourlyForecast, setHourlyForecast] = useState({});
 
-  const fetchForecast = async () => {
+  const fetchWeather = async () => {
     try {
       const res = await axios.get('api/weather');
-      setForecast(res.data);
+      setWeather(res.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const fetchAirQuality = async () => {
+  const fetchPollution = async () => {
     try {
       const res = await axios.get('api/pollution');
-      setAirQuality(res.data);
+      setPollution(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchHourlyForecast = async () => {
+    try {
+      const res = await axios.get('api/hourlyForecast');
+      setHourlyForecast(res.data);
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    fetchForecast();
-    fetchAirQuality();
+    fetchWeather();
+    fetchPollution();
+    fetchHourlyForecast();
   }, []);
 
   return (
     <GlobalContext.Provider
       value={{
-        forecast,
-        airQuality,
+        weather,
+        pollution,
+        hourlyForecast,
       }}>
-      <GlobalContextUpdate.Provider
-        value={{
-          forecast,
-          airQuality,
-        }}>
-        {children}
-      </GlobalContextUpdate.Provider>
+      {children}
     </GlobalContext.Provider>
   );
 };

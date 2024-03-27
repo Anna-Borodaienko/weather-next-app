@@ -6,21 +6,21 @@ import { getTimeFromUnix } from '@/app/utils/getTimeFromUnix';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export const SunTimes: React.FC = (): JSX.Element => {
-  const { forecast } = useGlobalContext();
+  const { weather } = useGlobalContext();
 
   if (
-    !forecast ||
-    !forecast?.sys ||
-    !forecast?.sys?.sunset ||
-    !forecast?.sys?.sunrise ||
-    !forecast?.timezone
+    !weather ||
+    !weather?.sys ||
+    !weather?.sys?.sunset ||
+    !weather?.sys?.sunrise ||
+    !weather?.timezone
   ) {
     return <Skeleton className='h-[12rem] w-full' />;
   }
 
-  const sunsetUnix = forecast.sys.sunset;
-  const sunriseUnix = forecast.sys.sunrise;
-  const timezone = forecast.timezone;
+  const sunsetUnix = weather.sys.sunset;
+  const sunriseUnix = weather.sys.sunrise;
+  const timezone = weather.timezone;
 
   const sunsetTime = getTimeFromUnix(sunsetUnix, timezone);
   const sunriseTime = getTimeFromUnix(sunriseUnix, timezone);

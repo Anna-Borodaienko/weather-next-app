@@ -1,4 +1,4 @@
-export const airQualityIndexText = [
+export const pollutionIndexText = [
   {
     rating: 10,
     description: 'excellent',

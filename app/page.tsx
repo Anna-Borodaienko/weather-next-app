@@ -1,4 +1,5 @@
 import { AirPollution } from './components/AirPollution';
+import { HourlyForecast } from './components/HourlyForecast';
 import { Navbar } from './components/Navbar';
 import { SunTimes } from './components/SunTimes';
 import { Temperature } from './components/Temperature';
@@ -19,6 +20,7 @@ const Home: React.FC = (): JSX.Element => {
             <AirPollution />
             <SunTimes />
             <Wind />
+            <HourlyForecast />
           </div>
         </div>
       </div>

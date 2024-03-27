@@ -17,11 +17,12 @@ export const Temperature: React.FC = (): JSX.Element => {
   const [localTime, setLocalTime] = useState<string>('');
   const [currentDay, setCurrentDay] = useState<string>('');
 
-  const { forecast } = useGlobalContext();
+  const { weather } = useGlobalContext();
 
-  const { main, timezone, name, weather } = forecast;
+  const { main, timezone, name, weather: currentWeather } = weather;
 
-  const weatherData = weather && weather.length > 0 ? weather[0] : null;
+  const weatherData =
+    currentWeather && currentWeather.length > 0 ? currentWeather[0] : null;
   const { main: weatherMain, description } = weatherData || {};
 
   const mainData = main ? main : null;
@@ -57,7 +58,7 @@ export const Temperature: React.FC = (): JSX.Element => {
     return () => clearInterval(interval);
   }, [timezone]);
 
-  if (!forecast || !weather) return <div>Loading...</div>;
+  if (!weather || !currentWeather) return <div>Loading...</div>;
 
   return (
     <div
