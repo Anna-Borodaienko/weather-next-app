@@ -14,8 +14,6 @@ export const Temperature: React.FC = (): JSX.Element => {
 
   const { weather } = useGlobalContext();
 
-  console.log(weather);
-
   const { main, timezone, name, weather: currentWeather } = weather;
 
   const weatherData =

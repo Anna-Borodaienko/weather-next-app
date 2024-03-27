@@ -1,9 +1,9 @@
 'use client';
 
-import moment from 'moment';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useGlobalContext } from '@/app/context/GlobalContext';
+import { getTimeFromUnix } from '@/app/utils/getTimeFromUnix';
 import {
   Carousel,
   CarouselContent,
@@ -27,18 +27,6 @@ export const HourlyForecast: React.FC = (): JSX.Element => {
 
   const { current, hourly, timezone_offset } = hourlyForecast;
 
-  const getHour = useCallback(
-    (timestamp: number) => {
-      return moment
-        .unix(timestamp)
-        .utc()
-        .utcOffset(timezone_offset / 60)
-        .format('HH:mm')
-        .toString();
-    },
-    [timezone_offset],
-  );
-
   useEffect(() => {
     if (!current || !current.dt || !current.temp || !hourly) return;
 
@@ -53,7 +41,7 @@ export const HourlyForecast: React.FC = (): JSX.Element => {
     for (let i = 1; i < 24; i++) {
       const hourForecast = {
         id: hourly[i].dt,
-        hour: getHour(hourly[i].dt),
+        hour: getTimeFromUnix(hourly[i].dt, timezone_offset).toString(),
         temp: Math.round(hourly[i].temp),
         icon: hourly[i].weather[0].icon,
       };
@@ -61,7 +49,7 @@ export const HourlyForecast: React.FC = (): JSX.Element => {
     }
 
     setVisibleForecast(visibleForecastList);
-  }, [current, getHour, hourly]);
+  }, [current, hourly, timezone_offset]);
 
   return (
     <div
