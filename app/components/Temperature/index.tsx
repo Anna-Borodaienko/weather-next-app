@@ -3,15 +3,10 @@
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 
-import {
-  clearSky,
-  cloudy,
-  drizzleIcon,
-  navigation,
-  rain,
-  snow,
-} from '@/app/components/icons';
+import { navigation } from '@/app/components/icons';
 import { useGlobalContext } from '@/app/context/GlobalContext';
+
+import { IconWeather } from '../IconWeather';
 
 export const Temperature: React.FC = (): JSX.Element => {
   const [localTime, setLocalTime] = useState<string>('');
@@ -19,31 +14,16 @@ export const Temperature: React.FC = (): JSX.Element => {
 
   const { weather } = useGlobalContext();
 
+  console.log(weather);
+
   const { main, timezone, name, weather: currentWeather } = weather;
 
   const weatherData =
     currentWeather && currentWeather.length > 0 ? currentWeather[0] : null;
-  const { main: weatherMain, description } = weatherData || {};
+  const { icon, description } = weatherData || {};
 
   const mainData = main ? main : null;
   const { temp, temp_min, temp_max } = mainData || {};
-
-  const getIcon = () => {
-    switch (weatherMain) {
-      case 'Drizzle':
-        return drizzleIcon;
-      case 'Rain':
-        return rain;
-      case 'Snow':
-        return snow;
-      case 'Clear':
-        return clearSky;
-      case 'Clouds':
-        return cloudy;
-      default:
-        return clearSky;
-    }
-  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -77,7 +57,7 @@ export const Temperature: React.FC = (): JSX.Element => {
       </p>
       <div>
         <div>
-          <span>{getIcon()}</span>
+          <IconWeather iconCode={icon} />
           <p className='pt-2 capitalize text-lg font-medium'>{description}</p>
         </div>
         <p className='flex items-center gap-2'>

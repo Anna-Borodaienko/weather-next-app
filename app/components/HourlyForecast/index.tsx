@@ -3,13 +3,6 @@
 import moment from 'moment';
 import { useCallback, useEffect, useState } from 'react';
 
-import {
-  clearSky,
-  cloudy,
-  drizzleIcon,
-  rain,
-  snow,
-} from '@/app/components/icons';
 import { useGlobalContext } from '@/app/context/GlobalContext';
 import {
   Carousel,
@@ -18,40 +11,21 @@ import {
 } from '@/components/ui/carousel';
 import { Skeleton } from '@/components/ui/skeleton';
 
+import { IconWeather } from '../IconWeather';
+
 export const HourlyForecast: React.FC = (): JSX.Element => {
   const [visibleForecast, setVisibleForecast] = useState([
     {
       id: 0,
       hour: '',
       temp: 0,
+      icon: '',
     },
   ]);
 
-  const { weather, hourlyForecast } = useGlobalContext();
+  const { hourlyForecast } = useGlobalContext();
 
   const { current, hourly, timezone_offset } = hourlyForecast;
-  const { weather: currentWeather } = weather;
-
-  const currentWeatherData =
-    currentWeather && currentWeather[0] ? currentWeather[0] : null;
-  const { main: weatherMain } = currentWeatherData || {};
-
-  const getIcon = () => {
-    switch (weatherMain) {
-      case 'Drizzle':
-        return drizzleIcon;
-      case 'Rain':
-        return rain;
-      case 'Snow':
-        return snow;
-      case 'Clear':
-        return clearSky;
-      case 'Clouds':
-        return cloudy;
-      default:
-        return clearSky;
-    }
-  };
 
   const getHour = useCallback(
     (timestamp: number) => {
@@ -69,13 +43,19 @@ export const HourlyForecast: React.FC = (): JSX.Element => {
     if (!current || !current.dt || !current.temp || !hourly) return;
 
     const visibleForecastList = [
-      { id: current.dt, hour: 'Now', temp: Math.round(current.temp) },
+      {
+        id: current.dt,
+        hour: 'Now',
+        temp: Math.round(current.temp),
+        icon: current.weather[0].icon,
+      },
     ];
     for (let i = 1; i < 24; i++) {
       const hourForecast = {
         id: hourly[i].dt,
         hour: getHour(hourly[i].dt),
         temp: Math.round(hourly[i].temp),
+        icon: hourly[i].weather[0].icon,
       };
       visibleForecastList.push(hourForecast);
     }
@@ -102,9 +82,9 @@ export const HourlyForecast: React.FC = (): JSX.Element => {
                   return (
                     <CarouselItem
                       key={forecast.id}
-                      className='flex flex-col gap-4 cursor-grab basis-[8.5rem]'>
+                      className='flex flex-col items-center gap-4 cursor-grab basis-[8.5rem]'>
                       <p>{forecast.hour}</p>
-                      <p>{getIcon()}</p>
+                      <IconWeather iconCode={forecast.icon} />
                       <p className='mt-4'>{forecast.temp}°C</p>
                     </CarouselItem>
                   );
