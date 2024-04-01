@@ -23,9 +23,9 @@ export const HourlyForecast: React.FC = (): JSX.Element => {
     },
   ]);
 
-  const { hourlyForecast } = useGlobalContext();
+  const { weather } = useGlobalContext();
 
-  const { current, hourly, timezone_offset } = hourlyForecast;
+  const { current, hourly, timezone_offset } = weather;
 
   useEffect(() => {
     if (!current || !current.dt || !current.temp || !hourly) return;

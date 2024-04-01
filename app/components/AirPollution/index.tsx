@@ -38,7 +38,9 @@ export const AirPollution: React.FC = (): JSX.Element => {
         max={100}
         className='progress'
       />
-      <p>Air quality is {pollutionIndexDescription?.description} </p>
+      <p className='text-sm'>
+        Air quality is {pollutionIndexDescription?.description}{' '}
+      </p>
     </div>
   );
 };

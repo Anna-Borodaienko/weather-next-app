@@ -9,17 +9,12 @@ import { Skeleton } from '@/components/ui/skeleton';
 export const Wind: React.FC = (): JSX.Element => {
   const { weather } = useGlobalContext();
 
-  if (
-    !weather ||
-    !weather?.wind ||
-    !weather?.wind?.speed ||
-    !weather?.wind?.deg
-  ) {
+  if (!weather || !weather.current) {
     return <Skeleton className='h-[12rem] w-full' />;
   }
+  const { current } = weather;
 
-  const windSpeed = weather.wind.speed;
-  const windDirection = weather.wind.deg;
+  const { wind_speed: windSpeed, wind_deg: windDirection } = current;
 
   return (
     <div

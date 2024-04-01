@@ -8,22 +8,20 @@ import { Skeleton } from '@/components/ui/skeleton';
 export const SunTimes: React.FC = (): JSX.Element => {
   const { weather } = useGlobalContext();
 
+  const { current, timezone_offset } = weather;
+
   if (
     !weather ||
-    !weather?.sys ||
-    !weather?.sys?.sunset ||
-    !weather?.sys?.sunrise ||
-    !weather?.timezone
+    !current ||
+    !current.sunset ||
+    !current.sunrise ||
+    !timezone_offset
   ) {
     return <Skeleton className='h-[12rem] w-full' />;
   }
 
-  const sunsetUnix = weather.sys.sunset;
-  const sunriseUnix = weather.sys.sunrise;
-  const timezone = weather.timezone;
-
-  const sunsetTime = getTimeFromUnix(sunsetUnix, timezone);
-  const sunriseTime = getTimeFromUnix(sunriseUnix, timezone);
+  const sunsetTime = getTimeFromUnix(current.sunset, timezone_offset);
+  const sunriseTime = getTimeFromUnix(current.sunrise, timezone_offset);
 
   return (
     <div
@@ -36,7 +34,7 @@ export const SunTimes: React.FC = (): JSX.Element => {
         </h2>
         <p className='pt-4 text-2xl'>{sunriseTime}</p>
       </div>
-      <p>Sunset: {sunsetTime}</p>
+      <p className='text-sm'>Sunset: {sunsetTime}</p>
     </div>
   );
 };

@@ -14,18 +14,18 @@ export const Temperature: React.FC = (): JSX.Element => {
 
   const { weather } = useGlobalContext();
 
-  const { main, timezone, name, weather: currentWeather } = weather;
-
-  const weatherData =
-    currentWeather && currentWeather.length > 0 ? currentWeather[0] : null;
-  const { icon, description } = weatherData || {};
-
-  const mainData = main ? main : null;
-  const { temp, temp_min, temp_max } = mainData || {};
-
   useEffect(() => {
+    if (
+      !weather ||
+      !weather.daily ||
+      !weather.daily[0] ||
+      !weather.daily[0].weather?.[0] ||
+      !weather.daily[0].temp
+    )
+      return;
+
     const interval = setInterval(() => {
-      const localMoment = moment().utcOffset(timezone / 60);
+      const localMoment = moment().utcOffset(weather.timezone_offset / 60);
       const formattedTime = localMoment.format('HH:mm:ss');
       const day = localMoment.format('dddd');
 
@@ -34,9 +34,21 @@ export const Temperature: React.FC = (): JSX.Element => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [timezone]);
+  }, [weather]);
 
-  if (!weather || !currentWeather) return <div>Loading...</div>;
+  const { daily, timezone } = weather;
+
+  if (
+    !weather ||
+    !daily ||
+    !daily[0].weather ||
+    !daily[0].weather[0] ||
+    !daily[0].temp
+  )
+    return <div>Loading...</div>;
+
+  const { main, icon } = daily[0].weather[0];
+  const { day, min, max } = daily[0].temp;
 
   return (
     <div
@@ -47,20 +59,18 @@ export const Temperature: React.FC = (): JSX.Element => {
         <span className='font-medium'>{localTime}</span>
       </p>
       <p className='py-10 font-bold flex gap-1'>
-        <span>{name}</span>
+        <span>{timezone}</span>
         <span>{navigation}</span>
       </p>
-      <p className='py-10 text-9xl font-bold self-center'>
-        {Math.round(temp)}°
-      </p>
+      <p className='py-10 text-9xl font-bold self-center'>{Math.round(day)}°</p>
       <div>
         <div>
           <IconWeather iconCode={icon} />
-          <p className='pt-2 capitalize text-lg font-medium'>{description}</p>
+          <p className='pt-2 capitalize text-lg font-medium'>{main}</p>
         </div>
         <p className='flex items-center gap-2'>
-          <span>Low: {Math.round(temp_min)}°</span>
-          <span>High: {Math.round(temp_max)}°</span>
+          <span>Low: {Math.round(min)}°</span>
+          <span>High: {Math.round(max)}°</span>
         </p>
       </div>
     </div>

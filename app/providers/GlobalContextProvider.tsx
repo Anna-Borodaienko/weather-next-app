@@ -1,7 +1,7 @@
 'use client';
 
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { GlobalContext } from '../context/GlobalContext';
 
@@ -12,47 +12,51 @@ export const GlobalContextProvider = ({
 }) => {
   const [weather, setWeather] = useState({});
   const [pollution, setPollution] = useState({});
-  const [hourlyForecast, setHourlyForecast] = useState({});
+  const [forecast, setForecast] = useState({});
 
-  const fetchWeather = async () => {
+  const fetchWeather = useCallback(async () => {
     try {
       const res = await axios.get('api/weather');
       setWeather(res.data);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, []);
 
-  const fetchPollution = async () => {
+  const fetchPollution = useCallback(async () => {
     try {
       const res = await axios.get('api/pollution');
       setPollution(res.data);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, []);
 
-  const fetchHourlyForecast = async () => {
+  const fetchFiveDayForecast = useCallback(async () => {
     try {
-      const res = await axios.get('api/hourlyForecast');
-      setHourlyForecast(res.data);
+      const res = await axios.get('api/fiveDayForecast');
+      setForecast(res.data);
     } catch (error) {
       console.log(error);
     }
-  };
+  }, []);
 
   useEffect(() => {
-    fetchWeather();
-    fetchPollution();
-    fetchHourlyForecast();
-  }, []);
+    const fetchData = async () => {
+      await fetchWeather();
+      await fetchPollution();
+      await fetchFiveDayForecast();
+    };
+
+    fetchData();
+  }, [fetchWeather, fetchPollution, fetchFiveDayForecast]);
 
   return (
     <GlobalContext.Provider
       value={{
         weather,
         pollution,
-        hourlyForecast,
+        forecast,
       }}>
       {children}
     </GlobalContext.Provider>
