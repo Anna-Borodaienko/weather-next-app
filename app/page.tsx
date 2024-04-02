@@ -4,9 +4,11 @@ import { HourlyForecast } from './components/HourlyForecast';
 import { Humidity } from './components/Humidity';
 import { Navbar } from './components/Navbar';
 import { Population } from './components/Population';
+import { Pressure } from './components/Pressure';
 import { SunTimes } from './components/SunTimes';
 import { Temperature } from './components/Temperature';
 import { UviIndex } from './components/UviIndex';
+import { Visibility } from './components/Visibility';
 import { Wind } from './components/Wind';
 
 const Home: React.FC = (): JSX.Element => {
@@ -29,6 +31,8 @@ const Home: React.FC = (): JSX.Element => {
             <Population />
             <FeelsLike />
             <Humidity />
+            <Visibility />
+            <Pressure />
           </div>
         </div>
       </div>
