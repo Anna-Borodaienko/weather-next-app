@@ -1,8 +1,8 @@
 export const DEFAULT_LOCATION = {
   city: 'Kyiv',
   coord: {
-    lat: '50.450001',
-    lon: '30.523333',
+    lat: '50.272796',
+    lon: '30.31428',
   },
 };
 

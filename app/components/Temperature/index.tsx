@@ -12,20 +12,20 @@ export const Temperature: React.FC = (): JSX.Element => {
   const [localTime, setLocalTime] = useState<string>('');
   const [currentDay, setCurrentDay] = useState<string>('');
 
-  const { weather } = useGlobalContext();
+  const { forecast } = useGlobalContext();
 
   useEffect(() => {
     if (
-      !weather ||
-      !weather.daily ||
-      !weather.daily[0] ||
-      !weather.daily[0].weather?.[0] ||
-      !weather.daily[0].temp
+      !forecast ||
+      !forecast.city ||
+      !forecast.list ||
+      !forecast.list[0] ||
+      !forecast.list[0].main
     )
       return;
 
     const interval = setInterval(() => {
-      const localMoment = moment().utcOffset(weather.timezone_offset / 60);
+      const localMoment = moment().utcOffset(forecast.timezone / 60);
       const formattedTime = localMoment.format('HH:mm:ss');
       const day = localMoment.format('dddd');
 
@@ -34,21 +34,21 @@ export const Temperature: React.FC = (): JSX.Element => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [weather]);
+  }, [forecast]);
 
-  const { daily, timezone } = weather;
+  const { city, list } = forecast;
 
   if (
-    !weather ||
-    !daily ||
-    !daily[0].weather ||
-    !daily[0].weather[0] ||
-    !daily[0].temp
+    !forecast ||
+    !forecast.city ||
+    !forecast.list ||
+    !forecast.list[0] ||
+    !forecast.list[0].main
   )
     return <div>Loading...</div>;
 
-  const { main, icon } = daily[0].weather[0];
-  const { day, min, max } = daily[0].temp;
+  const { main, icon } = list[0].weather[0];
+  const { temp, temp_min, temp_max } = list[0].main;
 
   return (
     <div
@@ -59,18 +59,20 @@ export const Temperature: React.FC = (): JSX.Element => {
         <span className='font-medium'>{localTime}</span>
       </p>
       <p className='py-10 font-bold flex gap-1'>
-        <span>{timezone}</span>
+        <span>{city.name}</span>
         <span>{navigation}</span>
       </p>
-      <p className='py-10 text-9xl font-bold self-center'>{Math.round(day)}°</p>
+      <p className='py-10 text-9xl font-bold self-center'>
+        {Math.round(temp)}°
+      </p>
       <div>
         <div>
           <IconWeather iconCode={icon} />
           <p className='pt-2 capitalize text-lg font-medium'>{main}</p>
         </div>
         <p className='flex items-center gap-2'>
-          <span>Low: {Math.round(min)}°</span>
-          <span>High: {Math.round(max)}°</span>
+          <span>Low: {Math.round(temp_min)}°</span>
+          <span>High: {Math.round(temp_max)}°</span>
         </p>
       </div>
     </div>
