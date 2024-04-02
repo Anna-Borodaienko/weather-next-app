@@ -25,7 +25,7 @@ export const Temperature: React.FC = (): JSX.Element => {
       return;
 
     const interval = setInterval(() => {
-      const localMoment = moment().utcOffset(forecast.timezone / 60);
+      const localMoment = moment().utcOffset(forecast.timezone / 60, true);
       const formattedTime = localMoment.format('HH:mm:ss');
       const day = localMoment.format('dddd');
 
