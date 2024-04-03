@@ -26,6 +26,7 @@ export const DEFAULT_SUGGESTIONS = [
 
 export const OTHER_LARGE_CITIES = [
   {
+    id: 1,
     city: 'New York',
     country: 'United States',
     coord: {
@@ -34,6 +35,7 @@ export const OTHER_LARGE_CITIES = [
     },
   },
   {
+    id: 2,
     city: 'Shanghai',
     country: 'China',
     coord: {
@@ -42,6 +44,7 @@ export const OTHER_LARGE_CITIES = [
     },
   },
   {
+    id: 3,
     city: 'Tokyo',
     country: 'Japan',
     coord: {
@@ -50,6 +53,7 @@ export const OTHER_LARGE_CITIES = [
     },
   },
   {
+    id: 4,
     city: 'Sydney',
     country: 'Australia',
     coord: {
@@ -58,6 +62,7 @@ export const OTHER_LARGE_CITIES = [
     },
   },
   {
+    id: 5,
     city: 'São Paulo',
     country: 'Brazil',
     coord: {

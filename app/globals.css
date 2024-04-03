@@ -85,3 +85,14 @@
     rgba(178, 34, 34, 1) 100%
   );
 }
+
+@media screen and (max-width: 1010px) {
+  .map-container {
+    flex-direction: column;
+  }
+
+  .map-container > div:first-child {
+    height: 24rem;
+    flex: initial;
+  }
+}

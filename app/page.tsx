@@ -1,7 +1,11 @@
+'use client';
+
 import { AirPollution } from './components/AirPollution';
 import { FeelsLike } from './components/FeelsLike';
 import { HourlyForecast } from './components/HourlyForecast';
 import { Humidity } from './components/Humidity';
+import { LargeCities } from './components/LargeCities';
+import { Map } from './components/Map';
 import { Navbar } from './components/Navbar';
 import { Population } from './components/Population';
 import { Pressure } from './components/Pressure';
@@ -33,6 +37,10 @@ const Home: React.FC = (): JSX.Element => {
             <Humidity />
             <Visibility />
             <Pressure />
+          </div>
+          <div className='map-container mt-4 flex gap-4'>
+            <Map />
+            <LargeCities />
           </div>
         </div>
       </div>
