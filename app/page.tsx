@@ -2,6 +2,7 @@
 
 import { AirPollution } from './components/AirPollution';
 import { FeelsLike } from './components/FeelsLike';
+import { FiveDaysForecast } from './components/FiveDaysForecast';
 import { HourlyForecast } from './components/HourlyForecast';
 import { Humidity } from './components/Humidity';
 import { LargeCities } from './components/LargeCities';
@@ -20,8 +21,9 @@ const Home: React.FC = (): JSX.Element => {
     <main className='mx-[1rem] lg:mx-[2rem] xl:mx-[6rem] 2xl:mx-[16rem] m-auto'>
       <Navbar />
       <div className='pb-4 flex flex-col gap-4 md:flex-row'>
-        <div className='flex flex-col hap-4 w-full min-w-[18rem] md:w-[35rem]'>
+        <div className='flex flex-col gap-4 w-full min-w-[18rem] md:w-[35rem]'>
           <Temperature />
+          <FiveDaysForecast />
         </div>
         <div className='flex flex-col w-full'>
           <div
