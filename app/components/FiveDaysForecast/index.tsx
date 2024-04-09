@@ -32,7 +32,7 @@ export const FiveDaysForecast: React.FC = (): JSX.Element => {
           {daily.map((day: any) => (
             <div
               key={day.dt}
-              className='daily-forecast flex w-full flex-row items-center justify-between gap-2 last:mb-0'>
+              className='daily-forecast flex w-full flex-row items-center justify-between gap-2 last:mb-0 border-b-2'>
               <p className='min-w-[3rem] font-medium'>
                 {getDayFromUnix(day.dt, timezone_offset)}
               </p>
