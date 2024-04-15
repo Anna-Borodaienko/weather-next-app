@@ -24,6 +24,10 @@ export const SearchInput: React.FC = (): JSX.Element => {
 
   const { setActiveCityCoords } = useGlobalContextUpdate();
 
+  const changeActiveCityCoords = (lat, lon) => {
+    setActiveCityCoords({ lat, lon });
+  };
+
   const {
     ready,
     value,
@@ -60,7 +64,7 @@ export const SearchInput: React.FC = (): JSX.Element => {
       clearSuggestions();
       getGeocode({ address: description }).then((results) => {
         const { lat, lng } = getLatLng(results[0]);
-        setActiveCityCoords({ lat, lon: lng });
+        changeActiveCityCoords(lat, lng);
       });
     };
 
