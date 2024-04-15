@@ -2,6 +2,7 @@ import './globals.css';
 
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import Script from 'next/script';
 
 import { GlobalContextProvider } from './providers/GlobalContextProvider';
 import { ThemeProvider } from './providers/ThemeProvider';
@@ -30,6 +31,12 @@ export default function RootLayout({
             {children}
           </ThemeProvider>
         </GlobalContextProvider>
+        <Script
+          strategy='beforeInteractive'
+          type='text/javascript'
+          id='googlemaps'
+          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API_KEY}&libraries=places&callback=SEARCH_CITY`}
+        />
       </body>
     </html>
   );

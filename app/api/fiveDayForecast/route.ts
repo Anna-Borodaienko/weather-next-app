@@ -1,14 +1,12 @@
 import axios from 'axios';
 import { NextRequest, NextResponse } from 'next/server';
 
-import { DEFAULT_LOCATION } from '../../constants/defaultLocations';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function GET(req: NextRequest) {
   try {
     const apiKey = process.env.OPENWEATHERMAP_API_KEY;
-    const lat = DEFAULT_LOCATION.coord.lat;
-    const lon = DEFAULT_LOCATION.coord.lon;
+    const searchParams = req.nextUrl.searchParams;
+    const lat = searchParams.get('lat');
+    const lon = searchParams.get('lon');
     const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric
     `;
     const res = await axios.get(url);

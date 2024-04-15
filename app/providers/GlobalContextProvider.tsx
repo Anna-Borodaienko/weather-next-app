@@ -3,38 +3,40 @@
 import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 
-import { GlobalContext } from '../context/GlobalContext';
+import { DEFAULT_LOCATION } from '@/app/constants/defaultLocations';
 
-export const GlobalContextProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+import { GlobalContext, GlobalContextUpdate } from '../context/GlobalContext';
+
+export const GlobalContextProvider = ({ children }) => {
   const [weather, setWeather] = useState({});
   const [pollution, setPollution] = useState({});
   const [forecast, setForecast] = useState({});
 
-  const fetchWeather = useCallback(async () => {
+  const [activeCityCoords, setActiveCityCoords] = useState(
+    DEFAULT_LOCATION.coord,
+  );
+
+  const fetchWeather = useCallback(async (lat, lon) => {
     try {
-      const res = await axios.get('api/weather');
+      const res = await axios.get(`api/weather?lat=${lat}&lon=${lon}`);
       setWeather(res.data);
     } catch (error) {
       console.log(error);
     }
   }, []);
 
-  const fetchPollution = useCallback(async () => {
+  const fetchPollution = useCallback(async (lat, lon) => {
     try {
-      const res = await axios.get('api/pollution');
+      const res = await axios.get(`api/pollution?lat=${lat}&lon=${lon}`);
       setPollution(res.data);
     } catch (error) {
       console.log(error);
     }
   }, []);
 
-  const fetchFiveDayForecast = useCallback(async () => {
+  const fetchFiveDayForecast = useCallback(async (lat, lon) => {
     try {
-      const res = await axios.get('api/fiveDayForecast');
+      const res = await axios.get(`api/fiveDayForecast?lat=${lat}&lon=${lon}`);
       setForecast(res.data);
     } catch (error) {
       console.log(error);
@@ -43,13 +45,13 @@ export const GlobalContextProvider = ({
 
   useEffect(() => {
     const fetchData = async () => {
-      await fetchWeather();
-      await fetchPollution();
-      await fetchFiveDayForecast();
+      await fetchWeather(activeCityCoords.lat, activeCityCoords.lon);
+      await fetchPollution(activeCityCoords.lat, activeCityCoords.lon);
+      await fetchFiveDayForecast(activeCityCoords.lat, activeCityCoords.lon);
     };
 
     fetchData();
-  }, [fetchWeather, fetchPollution, fetchFiveDayForecast]);
+  }, [fetchWeather, fetchPollution, fetchFiveDayForecast, activeCityCoords]);
 
   return (
     <GlobalContext.Provider
@@ -57,8 +59,14 @@ export const GlobalContextProvider = ({
         weather,
         pollution,
         forecast,
+        setActiveCityCoords,
       }}>
-      {children}
+      <GlobalContextUpdate.Provider
+        value={{
+          setActiveCityCoords,
+        }}>
+        {children}
+      </GlobalContextUpdate.Provider>
     </GlobalContext.Provider>
   );
 };
