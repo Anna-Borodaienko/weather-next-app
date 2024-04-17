@@ -7,16 +7,18 @@ import { DEFAULT_LOCATION } from '@/app/constants/defaultLocations';
 
 import { GlobalContext, GlobalContextUpdate } from '../context/GlobalContext';
 import { Coordinates } from '../types/Coordinates';
+import { Forecast } from '../types/Forecast';
 import { Pollution } from '../types/Pollution';
+import { Weather } from '../types/Weather';
 
 export const GlobalContextProvider = ({
   children,
 }: {
   children: ReactNode;
 }) => {
-  const [weather, setWeather] = useState({});
+  const [weather, setWeather] = useState<Weather | null>(null);
   const [pollution, setPollution] = useState<Pollution | null>(null);
-  const [forecast, setForecast] = useState({});
+  const [forecast, setForecast] = useState<Forecast | null>(null);
 
   const [activeCityCoords, setActiveCityCoords] = useState<Coordinates>(
     DEFAULT_LOCATION.coord,
