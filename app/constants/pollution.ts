@@ -1,42 +1,26 @@
 export const pollutionIndexText = [
   {
-    rating: 10,
-    description: 'excellent',
-  },
-  {
-    rating: 20,
+    index: 0,
     description: 'good',
   },
   {
-    rating: 30,
-    description: 'satisfactory',
+    index: 1,
+    description: 'good',
   },
   {
-    rating: 40,
+    index: 2,
     description: 'fair',
   },
   {
-    rating: 50,
+    index: 3,
     description: 'moderate',
   },
   {
-    rating: 60,
-    description: 'moderate',
-  },
-  {
-    rating: 70,
+    index: 4,
     description: 'poor',
   },
   {
-    rating: 80,
-    description: 'poor',
-  },
-  {
-    rating: 90,
-    description: 'very poor',
-  },
-  {
-    rating: 100,
+    index: 5,
     description: 'very poor',
   },
 ];

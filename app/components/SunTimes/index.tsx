@@ -2,11 +2,12 @@
 
 import { sunrise } from '@/app/components/icons';
 import { useGlobalContext } from '@/app/context/GlobalContext';
+import { Weather } from '@/app/types/Weather';
 import { getTimeFromUnix } from '@/app/utils/getTimeFromUnix';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export const SunTimes: React.FC = (): JSX.Element => {
-  const { weather } = useGlobalContext();
+  const { weather }: { weather: Weather } = useGlobalContext();
 
   const { current, timezone_offset } = weather;
 

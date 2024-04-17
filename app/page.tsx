@@ -2,7 +2,6 @@
 
 import { AirPollution } from './components/AirPollution';
 import { FeelsLike } from './components/FeelsLike';
-import { FiveDaysForecast } from './components/FiveDaysForecast';
 import { HourlyForecast } from './components/HourlyForecast';
 import { Humidity } from './components/Humidity';
 import { LargeCities } from './components/LargeCities';
@@ -14,6 +13,7 @@ import { SunTimes } from './components/SunTimes';
 import { Temperature } from './components/Temperature';
 import { UviIndex } from './components/UviIndex';
 import { Visibility } from './components/Visibility';
+import { WeekForecast } from './components/WeekForecast';
 import { Wind } from './components/Wind';
 
 const Home: React.FC = (): JSX.Element => {
@@ -23,7 +23,7 @@ const Home: React.FC = (): JSX.Element => {
       <div className='pb-4 flex flex-col gap-4 md:flex-row'>
         <div className='flex flex-col gap-4 w-full min-w-[18rem] md:w-[35rem]'>
           <Temperature />
-          <FiveDaysForecast />
+          <WeekForecast />
         </div>
         <div className='flex flex-col w-full'>
           <div

@@ -1,26 +1,34 @@
 'use client';
 
+import { humidityTexts } from '@/app/constants/humidity';
 import { useGlobalContext } from '@/app/context/GlobalContext';
+import { Weather } from '@/app/types/Weather';
 import { Skeleton } from '@/components/ui/skeleton';
 
 import { droplets } from '../icons';
 
 export const Humidity: React.FC = (): JSX.Element => {
-  const { weather } = useGlobalContext();
+  const { weather }: { weather: Weather } = useGlobalContext();
 
   if (!weather || !weather.current) {
     return <Skeleton className='h-[12rem] w-full' />;
   }
   const { current } = weather;
 
-  const getHumidityText = (humidity: number) => {
-    if (humidity < 30) return 'Dry: May cause skin irritation';
-    if (humidity >= 30 && humidity < 50)
-      return 'Comfortable: Ideal for health and comfort';
-    if (humidity >= 50 && humidity < 70)
-      return 'Moderate: Sticky, may increase allergens';
-    if (humidity >= 70) return 'High: Uncomfortable, mold growth risk';
-    return 'Unavailable: Humidity data not available';
+  const getHumidityText = (humidity: number): string => {
+    if (humidity < 30) {
+      return humidityTexts.dry;
+    }
+    if (humidity >= 30 && humidity < 50) {
+      return humidityTexts.comfortable;
+    }
+    if (humidity >= 50 && humidity < 70) {
+      return humidityTexts.moderate;
+    }
+    if (humidity >= 70) {
+      return humidityTexts.high;
+    }
+    return humidityTexts.unavailable;
   };
 
   return (

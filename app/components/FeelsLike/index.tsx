@@ -1,46 +1,45 @@
 'use client';
 
+import { feelsLikeTexts } from '@/app/constants/feelsLike';
 import { useGlobalContext } from '@/app/context/GlobalContext';
+import { Weather } from '@/app/types/Weather';
 import { Skeleton } from '@/components/ui/skeleton';
 
 import { thermometer } from '../icons';
 
 export const FeelsLike: React.FC = (): JSX.Element => {
-  const { forecast } = useGlobalContext();
+  const { weather }: { weather: Weather } = useGlobalContext();
 
-  if (
-    !forecast ||
-    !forecast.list ||
-    !forecast.list[0] ||
-    !forecast.list[0].main
-  ) {
+  if (!weather || !weather.daily || !weather.current) {
     return <Skeleton className='h-[12rem] w-full' />;
   }
-  const { list } = forecast;
-  const { main } = list[0];
-  const { feels_like, temp_min, temp_max } = main;
+  const { current, daily } = weather;
+  const { feels_like } = current;
+  const { min, max } = daily[0].temp;
 
   const feelsLikeText = (
     feelsLike: number,
     minTemp: number,
     maxTemp: number,
-  ) => {
+  ): string => {
     const avgTemp = (minTemp + maxTemp) / 2;
 
-    if (feelsLike < avgTemp - 5) {
-      return 'Feels significantly colder than actual temperature.';
+    const difference = feelsLike - avgTemp;
+
+    if (difference < -5) {
+      return feelsLikeTexts.significantlyColder;
     }
-    if (feelsLike > avgTemp - 5 && feelsLike <= avgTemp + 5) {
-      return 'Feels close to the actual temperature.';
+    if (difference >= -5 && difference <= 5) {
+      return feelsLikeTexts.closeToActual;
     }
-    if (feelsLike > avgTemp + 5) {
-      return 'Feels significantly warmer than actual temperature.';
+    if (difference > 5) {
+      return feelsLikeTexts.significantlyWarmer;
     }
 
-    return 'Temperature feeling is typical for this range.';
+    return feelsLikeTexts.typicalForRange;
   };
 
-  const feelsLikeDescription = feelsLikeText(feels_like, temp_min, temp_max);
+  const feelsLikeDescription = feelsLikeText(feels_like, min, max);
 
   return (
     <div

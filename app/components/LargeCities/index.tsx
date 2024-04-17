@@ -6,7 +6,7 @@ import { useGlobalContextUpdate } from '@/app/context/GlobalContext';
 export const LargeCities: React.FC = (): JSX.Element => {
   const { setActiveCityCoords } = useGlobalContextUpdate();
 
-  const changeActiveCityCoords = (lat, lon) => {
+  const changeActiveCityCoords = (lat: number, lon: number) => {
     setActiveCityCoords({ lat, lon });
 
     window.scrollTo({

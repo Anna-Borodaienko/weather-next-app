@@ -1,6 +1,7 @@
 'use client';
 
 import { useGlobalContext } from '@/app/context/GlobalContext';
+import { Weather } from '@/app/types/Weather';
 import { getDayFromUnix } from '@/app/utils/getDayFromUnix';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Slider } from '@/components/ui/slider';
@@ -8,8 +9,8 @@ import { Slider } from '@/components/ui/slider';
 import { calender } from '../icons';
 import { IconWeather } from '../IconWeather';
 
-export const FiveDaysForecast: React.FC = (): JSX.Element => {
-  const { weather } = useGlobalContext();
+export const WeekForecast: React.FC = (): JSX.Element => {
+  const { weather }: { weather: Weather } = useGlobalContext();
   const { daily, timezone_offset } = weather;
 
   if (!weather || !daily || !timezone_offset) {
@@ -25,14 +26,15 @@ export const FiveDaysForecast: React.FC = (): JSX.Element => {
       className='pt-6 pb-5 px-4 flex-1 border rounded-lg flex flex-col
         justify-between dark:bg-dark-grey shadow-sm dark:shadow-none'>
       <div>
-        <h2 className='flex items-center gap-2 font-medium'>
-          {calender} 8-Day Forecast
+        <h2 className='flex items-center gap-4 font-medium'>
+          {calender} 7-Day Forecast
         </h2>
-        <div className='forecast-list py-3'>
-          {daily.map((day: any) => (
+        <div className='forecast-list py-3 gap-4'>
+          {daily.slice(1).map((day) => (
             <div
               key={day.dt}
-              className='daily-forecast flex w-full flex-row items-center justify-between gap-2 last:mb-0 border-b-2'>
+              className='daily-forecast py-2 flex w-full flex-row items-center justify-between 
+              gap-2 last:mb-0 border-b-2 last:border-none'>
               <p className='min-w-[3rem] font-medium'>
                 {getDayFromUnix(day.dt, timezone_offset)}
               </p>

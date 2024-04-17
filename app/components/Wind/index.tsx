@@ -4,10 +4,11 @@ import Image from 'next/image';
 
 import { wind } from '@/app/components/icons';
 import { useGlobalContext } from '@/app/context/GlobalContext';
+import { Weather } from '@/app/types/Weather';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export const Wind: React.FC = (): JSX.Element => {
-  const { weather } = useGlobalContext();
+  const { weather }: { weather: Weather } = useGlobalContext();
 
   if (!weather || !weather.current) {
     return <Skeleton className='h-[12rem] w-full' />;
@@ -33,7 +34,7 @@ export const Wind: React.FC = (): JSX.Element => {
           <Image
             src='/compass_arrow.svg'
             alt='compass'
-            className='absolute top-0 left-[45%] transition-all duration-500 ease-in-out dark:invert'
+            className='absolute top-0 left-[50%] transition-all duration-500 ease-in-out dark:invert'
             style={{
               transform: `rotate(${windDirection}deg) translateX(-50%)`,
               height: '100%',

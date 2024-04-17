@@ -1,13 +1,14 @@
 'use client';
 
 import { useGlobalContext } from '@/app/context/GlobalContext';
+import { Forecast } from '@/app/types/Forecast';
 import { getPopulationNumber } from '@/app/utils/getPopulationNumber';
 import { Skeleton } from '@/components/ui/skeleton';
 
 import { people } from '../icons';
 
 export const Population: React.FC = (): JSX.Element => {
-  const { forecast } = useGlobalContext();
+  const { forecast }: { forecast: Forecast } = useGlobalContext();
 
   if (!forecast || !forecast.city) {
     return <Skeleton className='h-[12rem] w-full' />;

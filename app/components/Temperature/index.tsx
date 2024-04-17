@@ -3,8 +3,9 @@
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 
-import { navigation } from '@/app/components/icons';
 import { useGlobalContext } from '@/app/context/GlobalContext';
+import { Forecast } from '@/app/types/Forecast';
+import { Weather } from '@/app/types/Weather';
 
 import { IconWeather } from '../IconWeather';
 
@@ -12,20 +13,21 @@ export const Temperature: React.FC = (): JSX.Element => {
   const [localTime, setLocalTime] = useState<string>('');
   const [currentDay, setCurrentDay] = useState<string>('');
 
-  const { forecast } = useGlobalContext();
+  const { forecast, weather }: { forecast: Forecast; weather: Weather } =
+    useGlobalContext();
 
   useEffect(() => {
     if (
       !forecast ||
+      !weather ||
       !forecast.city ||
-      !forecast.list ||
-      !forecast.list[0] ||
-      !forecast.list[0].main
+      !weather.current ||
+      !weather.daily
     )
       return;
 
     const interval = setInterval(() => {
-      const localMoment = moment().utcOffset(forecast.timezone / 60, true);
+      const localMoment = moment().utcOffset(weather.timezone_offset / 60);
       const formattedTime = localMoment.format('HH:mm:ss');
       const day = localMoment.format('dddd');
 
@@ -34,21 +36,17 @@ export const Temperature: React.FC = (): JSX.Element => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [forecast]);
+  }, [forecast, weather]);
 
-  const { city, list } = forecast;
+  const { city } = forecast;
+  const { current, daily } = weather;
 
-  if (
-    !forecast ||
-    !forecast.city ||
-    !forecast.list ||
-    !forecast.list[0] ||
-    !forecast.list[0].main
-  )
+  if (!forecast || !weather || !current || !daily || !forecast.city)
     return <div>Loading...</div>;
 
-  const { main, icon } = list[0].weather[0];
-  const { temp, temp_min, temp_max } = list[0].main;
+  const { main, icon } = current.weather[0];
+  const { temp } = current;
+  const { min, max } = daily[0].temp;
 
   return (
     <div
@@ -60,7 +58,6 @@ export const Temperature: React.FC = (): JSX.Element => {
       </p>
       <p className='py-10 font-bold flex gap-1'>
         <span>{city.name}</span>
-        <span>{navigation}</span>
       </p>
       <p className='py-10 text-9xl font-bold self-center'>
         {Math.round(temp)}°
@@ -71,8 +68,8 @@ export const Temperature: React.FC = (): JSX.Element => {
           <p className='pt-2 capitalize text-lg font-medium'>{main}</p>
         </div>
         <p className='flex items-center gap-2'>
-          <span>Low: {Math.round(temp_min)}°</span>
-          <span>High: {Math.round(temp_max)}°</span>
+          <span>Low: {Math.round(min)}°</span>
+          <span>High: {Math.round(max)}°</span>
         </p>
       </div>
     </div>

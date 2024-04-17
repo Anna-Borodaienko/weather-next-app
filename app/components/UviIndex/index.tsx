@@ -1,13 +1,15 @@
 'use client';
 
+import { uvIndexText } from '@/app/constants/uv';
 import { useGlobalContext } from '@/app/context/GlobalContext';
+import { Weather } from '@/app/types/Weather';
 import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
 
 import { sun } from '../icons';
 
 export const UviIndex: React.FC = (): JSX.Element => {
-  const { weather } = useGlobalContext();
+  const { weather }: { weather: Weather } = useGlobalContext();
 
   if (!weather || !weather.current) {
     return <Skeleton className='h-[12rem] w-full' />;
@@ -16,42 +18,11 @@ export const UviIndex: React.FC = (): JSX.Element => {
 
   const { uvi } = current;
 
-  const uvIndexCategory = (uvIndex: number) => {
-    let category;
-    switch (true) {
-      case uvIndex <= 2:
-        category = {
-          text: 'Low',
-          protection: 'No protection required',
-        };
-        break;
-      case uvIndex <= 5:
-        category = {
-          text: 'Moderate',
-          protection: 'Stay in shade near midday.',
-        };
-        break;
-      case uvIndex <= 7:
-        category = {
-          text: 'High',
-          protection: 'Wear a hat and sunglasses.',
-        };
-        break;
-      case uvIndex <= 10:
-        category = {
-          text: 'Very High',
-          protection: 'Apply sunscreen SPF 30+ every 2 hours.',
-        };
-        break;
-      case uvIndex >= 12:
-      default:
-        category = {
-          text: 'Extreme',
-          protection: 'Avoid being outside.',
-        };
-    }
-    return category;
-  };
+  const uviIndex = Math.min(Math.ceil(uvi), 10);
+
+  const uviIndexDescription = uvIndexText.find(
+    (value) => value.index === uviIndex,
+  );
 
   return (
     <div
@@ -62,21 +33,17 @@ export const UviIndex: React.FC = (): JSX.Element => {
         <h2 className='flex items-center gap-2 font-medium'>{sun} UV index</h2>
         <div className='pt-4 flex flex-col gap-1'>
           <p className='text-2xl'>
-            {Math.round(uvi)}{' '}
-            <span className='text-sm'>
-              ({uvIndexCategory(Math.round(uvi)).text})
-            </span>
+            {uviIndex}{' '}
+            <span className='text-sm'>{uviIndexDescription?.description}</span>
           </p>
           <Progress
-            value={(Math.round(uvi) / 14) * 100}
-            max={10}
+            value={uviIndex * 10}
+            max={100}
             className='progress'
           />
         </div>
       </div>
-      <p className='text-sm pt-4'>
-        {uvIndexCategory(Math.round(uvi)).protection}
-      </p>
+      <p className='text-sm pt-4'>{uviIndexDescription?.protection}</p>
     </div>
   );
 };

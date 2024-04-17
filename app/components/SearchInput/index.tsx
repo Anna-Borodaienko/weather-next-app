@@ -55,7 +55,7 @@ export const SearchInput: React.FC = (): JSX.Element => {
   }, []);
 
   const handleSelect =
-    ({ description }: any) =>
+    ({ description }) =>
     () => {
       // When the user selects a place, we can replace the keyword without request data from API by setting the second parameter to "false"
       setValue(description, false);

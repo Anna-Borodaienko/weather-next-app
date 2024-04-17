@@ -1,12 +1,14 @@
 'use client';
 
+import { pressureTexts } from '@/app/constants/pressureTexts';
 import { useGlobalContext } from '@/app/context/GlobalContext';
+import { Weather } from '@/app/types/Weather';
 import { Skeleton } from '@/components/ui/skeleton';
 
 import { gauge } from '../icons';
 
 export const Pressure: React.FC = (): JSX.Element => {
-  const { weather } = useGlobalContext();
+  const { weather }: { weather: Weather } = useGlobalContext();
 
   if (!weather || !weather.current) {
     return <Skeleton className='h-[12rem] w-full' />;
@@ -14,21 +16,23 @@ export const Pressure: React.FC = (): JSX.Element => {
   const { current } = weather;
   const { pressure } = current;
 
-  const getPressureDescription = (pressure: number) => {
-    if (pressure < 1000) return 'Very low pressure';
-
-    if (pressure >= 1000 && pressure < 1015)
-      return 'Low pressure. Expect weather changes';
-
-    if (pressure >= 1015 && pressure < 1025)
-      return 'Normal pressure. Expect weather changes';
-
-    if (pressure >= 1025 && pressure < 1040)
-      return 'High pressure. Expect weather changes';
-
-    if (pressure >= 1040) return 'Very high pressure. Expect weather changes';
-
-    return 'Unavailable pressure data';
+  const getPressureDescription = (pressure: number): string => {
+    if (pressure < 1000) {
+      return pressureTexts.veryLow;
+    }
+    if (pressure >= 1000 && pressure < 1015) {
+      return pressureTexts.lowExpectChanges;
+    }
+    if (pressure >= 1015 && pressure < 1025) {
+      return pressureTexts.normalExpectChanges;
+    }
+    if (pressure >= 1025 && pressure < 1040) {
+      return pressureTexts.highExpectChanges;
+    }
+    if (pressure >= 1040) {
+      return pressureTexts.veryHighExpectChanges;
+    }
+    return pressureTexts.unavailable;
   };
 
   return (

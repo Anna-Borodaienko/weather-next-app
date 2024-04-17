@@ -3,26 +3,22 @@
 import { thermo } from '@/app/components/icons';
 import { pollutionIndexText } from '@/app/constants/pollution';
 import { useGlobalContext } from '@/app/context/GlobalContext';
+import { AqIndex, Pollution } from '@/app/types/Pollution';
 import { Progress } from '@/components/ui/progress';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export const AirPollution: React.FC = (): JSX.Element => {
-  const { pollution } = useGlobalContext();
+  const { pollution }: { pollution: Pollution } = useGlobalContext();
 
-  if (
-    !pollution ||
-    !pollution.list ||
-    !pollution.list[0] ||
-    !pollution.list[0].main
-  )
+  if (!pollution || !pollution.list[0] || !pollution.list[0].main)
     return (
       <Skeleton className='h-[12rem] w-full col-span-2 md:col-span-full' />
     );
 
-  const pollutionIndex = pollution.list[0].main.aqi * 10;
+  const pollutionIndex: AqIndex = pollution.list[0].main.aqi;
 
   const pollutionIndexDescription = pollutionIndexText.find(
-    (value) => value.rating === pollutionIndex,
+    (value) => value.index === pollutionIndex,
   );
 
   return (
@@ -34,7 +30,7 @@ export const AirPollution: React.FC = (): JSX.Element => {
         {thermo}Air Pollution
       </h2>
       <Progress
-        value={pollutionIndex}
+        value={pollutionIndex * 20}
         max={100}
         className='progress'
       />

@@ -1,12 +1,14 @@
 'use client';
 
+import { visibilityTexts } from '@/app/constants/visibility';
 import { useGlobalContext } from '@/app/context/GlobalContext';
+import { Weather } from '@/app/types/Weather';
 import { Skeleton } from '@/components/ui/skeleton';
 
 import { eye } from '../icons';
 
 export const Visibility: React.FC = (): JSX.Element => {
-  const { weather } = useGlobalContext();
+  const { weather }: { weather: Weather } = useGlobalContext();
 
   if (!weather || !weather.current) {
     return <Skeleton className='h-[12rem] w-full' />;
@@ -15,13 +17,19 @@ export const Visibility: React.FC = (): JSX.Element => {
 
   const { visibility } = current;
 
-  const getVisibilityDescription = (visibility: number) => {
+  const getVisibilityDescription = (visibility: number): string => {
     const visibilityInKm = Math.round(visibility / 1000);
 
-    if (visibilityInKm > 5) return 'Good: Easily navigable';
-    if (visibilityInKm > 2) return 'Moderate: Some limitations';
-    if (visibilityInKm <= 2) return 'Poor: Restricted and unclear';
-    return 'Unavailable: Visibility data not available';
+    if (visibilityInKm > 5) {
+      return visibilityTexts.good;
+    }
+    if (visibilityInKm > 2) {
+      return visibilityTexts.moderate;
+    }
+    if (visibilityInKm <= 2) {
+      return visibilityTexts.poor;
+    }
+    return visibilityTexts.unavailable;
   };
 
   return (

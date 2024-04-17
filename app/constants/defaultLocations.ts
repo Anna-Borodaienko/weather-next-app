@@ -1,8 +1,8 @@
 export const DEFAULT_LOCATION = {
   city: 'Kyiv',
   coord: {
-    lat: '50.272796',
-    lon: '30.31428',
+    lat: 50.272796,
+    lon: 30.31428,
   },
 };
 
@@ -91,8 +91,8 @@ export const OTHER_LARGE_CITIES = [
     city: 'Tokyo',
     country: 'Japan',
     coord: {
-      lat: 35.6764225,
-      lon: 139.650027,
+      lat: 35.6895,
+      lon: 139.6917,
     },
   },
   {
@@ -100,8 +100,8 @@ export const OTHER_LARGE_CITIES = [
     city: 'Sydney',
     country: 'Australia',
     coord: {
-      lat: -33.8688197,
-      lon: 151.2092955,
+      lat: -33.8679,
+      lon: 151.2073,
     },
   },
   {

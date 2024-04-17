@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import { useGlobalContext } from '@/app/context/GlobalContext';
+import { Weather } from '@/app/types/Weather';
 import { getTimeFromUnix } from '@/app/utils/getTimeFromUnix';
 import {
   Carousel,
@@ -23,7 +24,7 @@ export const HourlyForecast: React.FC = (): JSX.Element => {
     },
   ]);
 
-  const { weather } = useGlobalContext();
+  const { weather }: { weather: Weather } = useGlobalContext();
 
   const { current, hourly, timezone_offset } = weather;
 

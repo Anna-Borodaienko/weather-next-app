@@ -1,22 +1,28 @@
 'use client';
 
 import axios from 'axios';
-import { useCallback, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useEffect, useState } from 'react';
 
 import { DEFAULT_LOCATION } from '@/app/constants/defaultLocations';
 
 import { GlobalContext, GlobalContextUpdate } from '../context/GlobalContext';
+import { Coordinates } from '../types/Coordinates';
+import { Pollution } from '../types/Pollution';
 
-export const GlobalContextProvider = ({ children }) => {
+export const GlobalContextProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
   const [weather, setWeather] = useState({});
-  const [pollution, setPollution] = useState({});
+  const [pollution, setPollution] = useState<Pollution | null>(null);
   const [forecast, setForecast] = useState({});
 
-  const [activeCityCoords, setActiveCityCoords] = useState(
+  const [activeCityCoords, setActiveCityCoords] = useState<Coordinates>(
     DEFAULT_LOCATION.coord,
   );
 
-  const fetchWeather = useCallback(async (lat, lon) => {
+  const fetchWeather = useCallback(async (lat: number, lon: number) => {
     try {
       const res = await axios.get(`api/weather?lat=${lat}&lon=${lon}`);
       setWeather(res.data);
@@ -25,7 +31,7 @@ export const GlobalContextProvider = ({ children }) => {
     }
   }, []);
 
-  const fetchPollution = useCallback(async (lat, lon) => {
+  const fetchPollution = useCallback(async (lat: number, lon: number) => {
     try {
       const res = await axios.get(`api/pollution?lat=${lat}&lon=${lon}`);
       setPollution(res.data);
@@ -34,7 +40,7 @@ export const GlobalContextProvider = ({ children }) => {
     }
   }, []);
 
-  const fetchFiveDayForecast = useCallback(async (lat, lon) => {
+  const fetchFiveDayForecast = useCallback(async (lat: number, lon: number) => {
     try {
       const res = await axios.get(`api/fiveDayForecast?lat=${lat}&lon=${lon}`);
       setForecast(res.data);
