@@ -11,11 +11,12 @@ import { IconWeather } from '../IconWeather';
 
 export const WeekForecast: React.FC = (): JSX.Element => {
   const { weather }: { weather: Weather } = useGlobalContext();
-  const { daily, timezone_offset } = weather;
 
-  if (!weather || !daily || !timezone_offset) {
+  if (!weather || !weather.daily || !weather.timezone_offset) {
     return <Skeleton className='h-[12rem] w-full' />;
   }
+
+  const { daily, timezone_offset } = weather;
 
   const temperatures = daily.map((day) => day.temp);
   const minTemp = Math.min(...temperatures.map((temp) => temp.min));

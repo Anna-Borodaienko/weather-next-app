@@ -26,10 +26,17 @@ export const HourlyForecast: React.FC = (): JSX.Element => {
 
   const { weather }: { weather: Weather } = useGlobalContext();
 
-  const { current, hourly, timezone_offset } = weather;
-
   useEffect(() => {
-    if (!current || !current.dt || !current.temp || !hourly) return;
+    if (
+      !weather ||
+      !weather.current ||
+      !weather.current.dt ||
+      !weather.current.temp ||
+      !weather.hourly
+    )
+      return;
+
+    const { current, hourly, timezone_offset } = weather;
 
     const visibleForecastList = [
       {
@@ -50,7 +57,7 @@ export const HourlyForecast: React.FC = (): JSX.Element => {
     }
 
     setVisibleForecast(visibleForecastList);
-  }, [current, hourly, timezone_offset]);
+  }, [weather]);
 
   return (
     <div

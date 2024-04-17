@@ -38,12 +38,17 @@ export const Temperature: React.FC = (): JSX.Element => {
     return () => clearInterval(interval);
   }, [forecast, weather]);
 
-  const { city } = forecast;
-  const { current, daily } = weather;
-
-  if (!forecast || !weather || !current || !daily || !forecast.city)
+  if (
+    !forecast ||
+    !weather ||
+    !weather.current ||
+    !weather.daily ||
+    !forecast.city
+  )
     return <div>Loading...</div>;
 
+  const { city } = forecast;
+  const { current, daily } = weather;
   const { main, icon } = current.weather[0];
   const { temp } = current;
   const { min, max } = daily[0].temp;

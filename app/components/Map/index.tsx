@@ -6,6 +6,7 @@ import React, { useEffect } from 'react';
 import { MapContainer, TileLayer, useMap } from 'react-leaflet';
 
 import { useGlobalContext } from '@/app/context/GlobalContext';
+import { Weather } from '@/app/types/Weather';
 
 function FlyToActiveCity({ lat, lon }: { lat: number; lon: number }) {
   const map = useMap();
@@ -25,7 +26,7 @@ function FlyToActiveCity({ lat, lon }: { lat: number; lon: number }) {
 }
 
 export const Map: React.FC = (): JSX.Element => {
-  const { weather } = useGlobalContext();
+  const { weather }: { weather: Weather } = useGlobalContext();
 
   const { lat, lon } = weather;
 

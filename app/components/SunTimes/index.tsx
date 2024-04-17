@@ -9,18 +9,17 @@ import { Skeleton } from '@/components/ui/skeleton';
 export const SunTimes: React.FC = (): JSX.Element => {
   const { weather }: { weather: Weather } = useGlobalContext();
 
-  const { current, timezone_offset } = weather;
-
   if (
     !weather ||
-    !current ||
-    !current.sunset ||
-    !current.sunrise ||
-    !timezone_offset
+    !weather.current ||
+    !weather.current.sunset ||
+    !weather.current.sunrise ||
+    !weather.timezone_offset
   ) {
     return <Skeleton className='h-[12rem] w-full' />;
   }
 
+  const { current, timezone_offset } = weather;
   const sunsetTime = getTimeFromUnix(current.sunset, timezone_offset);
   const sunriseTime = getTimeFromUnix(current.sunrise, timezone_offset);
 
