@@ -24,7 +24,7 @@ export const SearchInput: React.FC = (): JSX.Element => {
 
   const { setActiveCityCoords } = useGlobalContextUpdate();
 
-  const changeActiveCityCoords = (lat, lon) => {
+  const changeActiveCityCoords = (lat: number, lon: number) => {
     setActiveCityCoords({ lat, lon });
   };
 
@@ -55,7 +55,7 @@ export const SearchInput: React.FC = (): JSX.Element => {
   }, []);
 
   const handleSelect =
-    ({ description }) =>
+    ({ description }: { description: string }) =>
     () => {
       // When the user selects a place, we can replace the keyword without request data from API by setting the second parameter to "false"
       setValue(description, false);
